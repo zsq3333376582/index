@@ -6,7 +6,7 @@ const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider(node));
 
 const contractAddress = '0x67c5a3CDf595D1B02703187FA4628e7A326863a8';
-const abi = require('abi.js');
+const abi = require('./abi.js');
 let contract = new web3.eth.Contract(abi, contractAddress);
 
 const timeout = 5;
@@ -35,7 +35,7 @@ async function writeEvent(event) {
     try {
         console.log(event);
         const { charging_pile_id, charging_time, charging_finish_time, charging_total_energy } = event.returnValues;
-        const queryString = `Insert into charging_data (charging_pile_id, charging_time, charging_finish_time, charging_total_energy, txHash, logIndex) VALUES (${charging_pile_id}, ${charging_time}, ${charging_finish_time}, ${charging_total_energy}, '${event.transactionHash}', '${event.logIndex}')`;
+        const queryString = `Insert into charging_data (charging_pile_id, charging_time, charging_finish_time, charging_total_energy, txHash, logIndex) VALUES (${chargingPileID}, ${chargingTimeInMinutes}, ${chargingFinishTime}, ${energyUsed}, '${event.transactionHash}', '${event.logIndex}')`;
         console.log(queryString);
         await pool.query(
             queryString
