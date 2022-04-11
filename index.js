@@ -34,7 +34,7 @@ pool.query = util.promisify(pool.query);
 async function writeEvent(event) {    
     try {
         console.log(event);
-        const { charging_pile_id, charging_time, charging_finish_time, charging_total_energy } = event.returnValues;
+        const { chargingPileID, chargingTimeInMinutes, chargingFinishTime, energyUsed } = event.returnValues;
         const queryString = `Insert into charging_data (charging_pile_id, charging_time, charging_finish_time, charging_total_energy, txHash, logIndex) VALUES (${chargingPileID}, ${chargingTimeInMinutes}, ${chargingFinishTime}, ${energyUsed}, '${event.transactionHash}', '${event.logIndex}')`;
         console.log(queryString);
         await pool.query(
@@ -48,7 +48,7 @@ async function writeEvent(event) {
 }
 
 async function getLatestCachedBlock() {
-    const defaultInitialBlock = 10443491;
+    const defaultInitialBlock = 10463089;
    return defaultInitialBlock;
 }
 
